@@ -8,10 +8,22 @@ module.exports.search = async (req, res) => {
     const search = req.query.search;
     const cities = await City.findAll({
       where: {
-        name: {
-          [Op.like]: `${search}%`,
-        },
+        [Op.or]: [
+          {
+            country: {
+              [Op.like]: `${search}%`,
+            },
+          },
+          {
+            name: {
+              [Op.like]: `${search}%`,
+            },
+          },
+        ],
       },
+      order: [
+        sequelize.literal(`CASE WHEN country = '${search}' THEN 0 ELSE 1 END`),
+      ],
       limit: 5,
     });
     return res.status(200).json({
@@ -68,18 +80,17 @@ module.exports.fromToTimezone = async (req, res) => {
   }
 };
 
-
-module.exports.getCity=  async(req,res)=>{
+module.exports.getCity = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const city = await City.findByPk(id);
-    if(city){
+    if (city) {
       return res.status(200).json({
         success: true,
         message: "Successfully found city",
         data: city,
       });
-    }else{
+    } else {
       return res.status(404).json({
         success: true,
         message: "City not found",
@@ -92,4 +103,4 @@ module.exports.getCity=  async(req,res)=>{
       message: "Something went wrong",
     });
   }
-}
+};

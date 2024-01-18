@@ -9,11 +9,11 @@ const City = sequelize.define("City", {
   },
   country: {
     type: DataTypes.STRING,
-    allowNull: false,
+    // allowNull: false,
   },
   timezone: {
     type: DataTypes.STRING,
-    allowNull: false,
+    // allowNull: false,
   },
   gmtOffset: {
     type: DataTypes.INTEGER,
@@ -33,7 +33,7 @@ const City = sequelize.define("City", {
   },
   flag:{
     type: DataTypes.STRING,
-    allowNull:false
+    // allowNull:false
   }
 });
 
