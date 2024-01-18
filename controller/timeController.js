@@ -22,7 +22,12 @@ module.exports.search = async (req, res) => {
         ],
       },
       order: [
-        sequelize.literal(`CASE WHEN country = '${search}' THEN 0 ELSE 1 END`),
+        [sequelize.literal(`CASE WHEN name = '${search}' THEN 0 ELSE 1 END`)],
+        [
+          sequelize.literal(
+            `CASE WHEN country = '${search}' THEN 0 ELSE 1 END`
+          ),
+        ],
       ],
       limit: 5,
     });
